@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Square Drills</title>
+  <link rel="stylesheet" href="/static/css/app.css">
+  <link rel="stylesheet" href="/static/css/square-drills.css">
+</head>
+<body>
+  <div class="app-shell">
+    <main class="main-content">
+      <header class="topbar">
+        <div><p class="eyebrow">Local chess practice</p><h1 id="moduleTitle">Square Drills</h1></div>
+        <div class="theme-controls" role="group" aria-labelledby="themeLabel">
+          <span id="themeLabel">Theme</span>
+          <button class="icon-button" id="themeLight" type="button" aria-pressed="true" disabled>Light</button>
+          <button class="icon-button" id="themeDark" type="button" aria-pressed="false" disabled>Dark</button>
+        </div>
+      </header>
+      <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+      <section class="module-panel active" id="module-square-drills" aria-labelledby="moduleTitle">
+        <div class="two-column drill-layout">
+          <article class="card main-card">
+            <div class="prompt-header"><div><p class="section-label">Current prompt</p><div class="prompt-value" id="sdPrompt">Ready</div><p class="prompt-type" id="sdPromptType">Press Start to begin</p></div><div class="cycle-badge"><strong id="sdCyclePosition">0</strong><span>/ 64</span></div></div>
+            <div class="progress"><div id="sdCycleProgress"></div></div>
+            <div class="answer-list" id="sdAnswers">
+              <div class="sd-color-answer" id="sdRowColor">
+                <span id="sdColorLabel">Color</span>
+                <input type="hidden" id="sdColor" disabled>
+                <div class="sd-key-grid color-keys" role="group" aria-labelledby="sdColorLabel">
+                  <button type="button" id="sdColorLight" aria-pressed="false" disabled>Light</button>
+                  <button type="button" id="sdColorDark" aria-pressed="false" disabled>Dark</button>
+                </div>
+              </div>
+              <label class="answer-row" id="sdRowAlgebraic"><span>Algebraic</span><input id="sdAlgebraic" autocomplete="off" spellcheck="false" placeholder="e4" disabled></label>
+              <label class="answer-row" id="sdRowWhite"><span>White descriptive</span><input id="sdWhite" autocomplete="off" spellcheck="false" placeholder="K4, QB3" disabled></label>
+              <label class="answer-row" id="sdRowBlack"><span>Black descriptive</span><input id="sdBlack" autocomplete="off" spellcheck="false" placeholder="K5, QB6" disabled></label>
+            </div>
+            <div id="sdKeypad" class="square-keypad" role="group" aria-label="Square Drills answer keypad"></div>
+            <div class="feedback" id="sdFeedback" role="status">No answer submitted.</div>
+            <section id="sdSessionResults" class="session-results" role="status" aria-live="polite" hidden><h2>Session complete</h2><p>All <strong id="sdSessionAttempts">64</strong> squares answered. The session has ended.</p><dl><div><dt>Correct</dt><dd id="sdSessionCorrect">0</dd></div><div><dt>Incorrect</dt><dd id="sdSessionIncorrect">0</dd></div><div><dt>Accuracy</dt><dd id="sdSessionAccuracy">0%</dd></div></dl><p>Choose Reshuffle when you want to start another 64-square session.</p></section><div class="button-row"><button class="primary" id="sdSubmit" disabled>Submit</button><button id="sdNext">Start</button><button id="sdReset">Reset session</button><button id="sdReshuffle">Reshuffle</button></div>
+          </article>
+          <aside class="side-stack">
+            <article class="card"><h2>Session</h2><div class="stat-grid"><div><strong id="sdAttempts">0</strong><span>Attempts</span></div><div><strong id="sdCorrect">0</strong><span>Correct</span></div><div><strong id="sdAccuracy">—</strong><span>Accuracy</span></div></div>
+              <div class="sd-timer"><label><input type="checkbox" id="sdTimerEnabled">Enable timer</label><output id="sdTimer" aria-label="Elapsed time for this question">00:00</output></div>
+            </article>
+            <article class="card settings-card"><h2>Settings</h2>
+              <label>Prompt shows<select id="sdPromptMode"><option value="algebraic">Algebraic</option><option value="white">White descriptive</option><option value="black">Black descriptive</option><option value="random">Random</option></select></label>
+              <label>Required answers<select id="sdAnswerMode"><option value="all">All fields</option><option value="white">Color + White descriptive</option><option value="algebraic">Color + Algebraic</option><option value="custom">Custom</option></select></label>
+              <fieldset id="sdCustom" hidden><legend>Custom fields</legend><p class="help-text sd-required-color">Color is always required.</p><label><input type="checkbox" value="algebraic">Algebraic</label><label><input type="checkbox" value="white">White descriptive</label><label><input type="checkbox" value="black">Black descriptive</label></fieldset>
+              <div class="remember-row"><label><input type="checkbox" id="sdRemember">Remember state</label><button class="link-button" id="sdClearSaved">Clear saved</button></div>
+            </article>
+          </aside>
+        </div>
+      </section>
+      <footer class="app-status">
+        <span class="status-dot" id="serverStatus"></span>
+        <span id="serverStatusText">Local database</span>
+        <span id="appVersion">v1.0.1</span>
+      </footer>
+    </main>
+  </div>
+  <script src="/static/js/app.js"></script>
+  <script src="/static/js/modules/square-drills-core.js"></script>
+  <script src="/static/js/modules/square-drills.js"></script>
+</body>
+</html>

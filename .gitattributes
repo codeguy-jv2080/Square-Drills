@@ -1,0 +1,6 @@
+* text=auto
+android/gradlew text eol=lf
+*.bat text eol=crlf
+# Preserve the exact bytes of the verified runnable distributions.
+dist/** binary
+android/dist/** binary
