@@ -2,6 +2,10 @@
 
 Version **1.0.1** — standalone square-color and chess-notation practice for Windows portable and Android.
 
+Square Drills is licensed under **GPL-3.0-or-later**. See [LICENSE](LICENSE) and
+[COPYRIGHT](COPYRIGHT). Both documents are included in the Windows portable
+folder and Android APK. Third-party components retain their own licenses.
+
 Square Drills opens directly into the drill. It retains the working drill from Chess Tools v1.2.3, with independent local SQLite storage. No accounts, cloud services, analytics, or internet connection are needed to use either application.
 
 ## Run the application

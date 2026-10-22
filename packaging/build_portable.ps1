@@ -58,6 +58,15 @@ try {
 
 $stagedExe = Join-Path $stagingApp 'Square Drills.exe'
 if (-not (Test-Path -LiteralPath $stagedExe)) { throw 'The staged executable was not created.' }
+foreach ($document in @('LICENSE', 'COPYRIGHT')) {
+    $sourceDocument = Join-Path $projectRoot $document
+    $packagedDocument = Join-Path $stagingApp $document
+    Copy-Item -LiteralPath $sourceDocument -Destination $packagedDocument -Force
+    if ((Get-FileHash -LiteralPath $sourceDocument -Algorithm SHA256).Hash -ne
+        (Get-FileHash -LiteralPath $packagedDocument -Algorithm SHA256).Hash) {
+        throw "Packaged license document differs from source: $document"
+    }
+}
 Invoke-SmokeTest $stagedExe (Join-Path $buildRoot 'windows-staged-smoke.json')
 $privateFiles = @(Get-ChildItem -LiteralPath $stagingApp -Recurse -Force | Where-Object {
     $_.Name -match '\.(db|db-wal|db-shm|log|keystore|jks)$' -or ($_.PSIsContainer -and $_.Name -in @('data', 'webview-profile', '.git', '.venv'))

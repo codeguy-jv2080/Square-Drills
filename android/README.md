@@ -63,7 +63,7 @@ Update the existing installation using the same application ID and signing ident
 
 Java source files are under `app/src/main/java/com/codeguy/squaredrills/`. Only bundled application content is allowed in the WebView. File/content access is disabled; the package requests no network or storage permissions. A restrictive content security policy blocks external requests and frames. WebView debugging is enabled only in debug builds.
 
-The standalone project owns every required source file. Shared assets are synchronized using the explicit file list in `../scripts/sync_android_assets.py`; platform-specific shells remain separate. It does not read assets from the original Chess Tools project at build time or runtime.
+The standalone project owns every required source file. Shared assets and the root `LICENSE` and `COPYRIGHT` documents are synchronized using the explicit file list in `../scripts/sync_android_assets.py`; platform-specific shells remain separate. The APK includes these documents as `assets/LICENSE` and `assets/COPYRIGHT`, and the packaging script verifies that their bytes match the root files. It does not read assets from the original Chess Tools project at build time or runtime.
 
 ## Build and test
 
@@ -114,3 +114,7 @@ Headless native tests emulate Android APIs; DOM tests execute JavaScript in memo
 - Suppression of the phone keyboard, native confirmations, and Back behavior.
 
 No desktop or device UI control is required by the background build/test commands.
+
+## License
+
+Square Drills is licensed under the GNU General Public License version 3 or any later version (`GPL-3.0-or-later`), as stated in [COPYRIGHT](../COPYRIGHT). The [full license](../LICENSE) and application copyright notice are included in the source project and in the APK at `assets/LICENSE` and `assets/COPYRIGHT`. Third-party components retain their own licenses.

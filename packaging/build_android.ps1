@@ -141,7 +141,7 @@ try {
     $archive = [System.IO.Compression.ZipFile]::OpenRead($builtApk)
     try {
         $entries = @($archive.Entries | ForEach-Object { $_.FullName })
-        foreach ($required in @('classes.dex', 'AndroidManifest.xml', 'assets/static/index.html', 'assets/static/js/android-api.js', 'assets/static/js/mobile.js', 'assets/static/js/modules/square-drills-core.js', 'assets/static/js/modules/square-drills.js')) {
+        foreach ($required in @('classes.dex', 'AndroidManifest.xml', 'assets/LICENSE', 'assets/COPYRIGHT', 'assets/static/index.html', 'assets/static/js/android-api.js', 'assets/static/js/mobile.js', 'assets/static/js/modules/square-drills-core.js', 'assets/static/js/modules/square-drills.js')) {
             if ($required -notin $entries) { throw "APK is missing $required" }
         }
         if ($entries | Where-Object { $_ -match '\.(db|db-wal|db-shm|sqlite|jks|keystore|log)$|local\.properties$' }) {
@@ -149,6 +149,15 @@ try {
         }
         if ($entries | Where-Object { $_ -match 'assets/.*(match-tracker|score-percentage|steps-grade|local-calculations|ccd-)' }) {
             throw 'The APK contains an unrelated suite module.'
+        }
+        foreach ($licenseName in @('LICENSE', 'COPYRIGHT')) {
+            $licenseStream = $archive.GetEntry("assets/$licenseName").Open()
+            $licenseSha = [System.Security.Cryptography.SHA256]::Create()
+            try { $packagedLicenseHash = [System.BitConverter]::ToString($licenseSha.ComputeHash($licenseStream)).Replace('-', '') }
+            finally { $licenseStream.Dispose(); $licenseSha.Dispose() }
+            if ($packagedLicenseHash -ne (Get-FileHash -LiteralPath (Join-Path $projectRoot $licenseName) -Algorithm SHA256).Hash) {
+                throw "The APK $licenseName does not match the root licensing document."
+            }
         }
         $assetsRoot = Join-Path $androidRoot 'app/src/main/assets'
         foreach ($sourceAsset in (Get-ChildItem -LiteralPath (Join-Path $assetsRoot 'static') -File -Recurse)) {
